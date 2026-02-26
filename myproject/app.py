@@ -84,74 +84,73 @@ model = load_model()
 # CIFAR-10 Classes
 class_names = ['Airplane', 'Automobile', 'Bird', 'Cat',
                'Deer', 'Dog', 'Frog', 'Horse', 'Ship', 'Truck']
-      
-
-
 
 if page == "Prediction":
+
     st.subheader("Image of any Model Classes for Prediction")
-   # Image Upload
     st.title("Upload Images")
-    uploaded_files = st.file_uploader("Predicting One or more than one Images in just single click",
-                                      type=["jpg", "png", "jpeg"],
-                                      accept_multiple_files=True)
-st.warning("⚠ This model is trained on CIFAR-10 dataset (32x32 images). High resolution Google images may give inaccurate results.")
-if uploaded_files is not None:
-    for uploaded_file in uploaded_files:
-        image = Image.open(uploaded_file)
-        st.image(image, caption=uploaded_file.name)
 
+    uploaded_files = st.file_uploader(
+        "Predicting One or more than one Images in just single click",
+        type=["jpg", "png", "jpeg"],
+        accept_multiple_files=True
+    )
 
-        # Preprocessing
-        image = image.convert("RGB")
-        image = image.resize((32, 32))   # CIFAR-10 size
-        image = np.array(image)
-        image = image / 255.0            # Normalization
-        image = np.expand_dims(image, axis=0)
+    st.warning("⚠ This model is trained on CIFAR-10 dataset (32x32 images). High resolution Google images may give inaccurate results.")
 
-          # Prediction
-        prediction = model.predict(image)
-        predicted_class = class_names[np.argmax(prediction)]
-        confidence = np.max(prediction) * 100
+    if uploaded_files is not None:
 
-        col1,col2 = st.columns([1,1])
-        with col1:
-            st.image(image,caption=uploaded_file.name)
-            st.metric("Model Confidence",f"{confidence:.2f}%")
-              # Probability Graph
-            prob_df = pd.DataFrame( prediction[0],index=class_names,
-columns=["Probability"])
+        for uploaded_file in uploaded_files:
 
-            st.bar_chart(prob_df)   
-              
-        with col2:
-            fig = go.Figure(go.Indicator(
-                mode="gauge+number",
-                value=confidence,
-                title={'text': "Model Confidence"},
-                gauge={
-                    'axis': {'range': [0, 100]},
-                    'bar': {'color': "blue"},
-                    'steps': [
-                        {'range': [0, 50], 'color': "lightgray"},
-                        {'range': [50, 80], 'color': "gray"},
-                        {'range': [80, 100], 'color': "green"},
-        ],
-    }
-))
+            image = Image.open(uploaded_file)
+            st.image(image, caption=uploaded_file.name)
 
-           st.plotly_chart(fig, use_container_width=True)
-           st.subheader(f"Prediction Result is:{predicted_class}")
-           st.write(f"Confidence:,{confidence:.2f}%")
- 
-           st.success("model loaded successfully!")
-           st.balloons()
-           st.spinner("predicting....")
-           st.progress(0)
-     st.markdown("""<div style='text-align:center;'>\
-<span class='star'>⭐ ⭐ ⭐</span> \
-<span class='cracker'>🎆 🎇</span>\
-</div>""", unsafe_allow_html=True)
-     
-                
-st.markdown("<center>© 2026 Surendra AI Project | Made with SS</center>", unsafe_allow_html=True)
+            # Preprocessing
+            image = image.convert("RGB")
+            image = image.resize((32, 32))
+            image = np.array(image)
+            image = image / 255.0
+            image = np.expand_dims(image, axis=0)
+
+            # Prediction
+            prediction = model.predict(image)
+            predicted_class = class_names[np.argmax(prediction)]
+            confidence = np.max(prediction) * 100
+
+            col1, col2 = st.columns(2)
+
+            with col1:
+                st.metric("Model Confidence", f"{confidence:.2f}%")
+
+                prob_df = pd.DataFrame(
+                    prediction[0],
+                    index=class_names,
+                    columns=["Probability"]
+                )
+
+                st.bar_chart(prob_df)
+
+            with col2:
+                fig = go.Figure(go.Indicator(
+                    mode="gauge+number",
+                    value=confidence,
+                    title={'text': "Model Confidence"},
+                    gauge={
+                        'axis': {'range': [0, 100]},
+                        'bar': {'color': "blue"},
+                        'steps': [
+                            {'range': [0, 50], 'color': "lightgray"},
+                            {'range': [50, 80], 'color': "gray"},
+                            {'range': [80, 100], 'color': "green"},
+                        ],
+                    }
+                ))
+
+                st.plotly_chart(fig, use_container_width=True)
+                st.subheader(f"Prediction Result is: {predicted_class}")
+                st.write(f"Confidence: {confidence:.2f}%")
+
+            st.success("Model loaded successfully!")
+            st.balloons()
+
+    st.markdown("<center>© 2026 Surendra AI Project | Made with SS</center>", unsafe_allow_html=True)
