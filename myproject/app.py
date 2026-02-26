@@ -76,7 +76,7 @@ if page == "Home":
 # Load model
 @st.cache_resource
 def load_model():
-    model = tf.keras.models.load_model(r"C:\Users\Dherendra Bunkar\Downloads\harryproject\cifar10_cnn_model (3).h5")
+    model = tf.keras.models.load_model("cifar10_cnn_model (3).h5")
     return model
 
 model = load_model()
