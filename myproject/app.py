@@ -103,39 +103,39 @@ if uploaded_files is not None:
 
 
         # Preprocessing
-         image = image.convert("RGB")
-         image = image.resize((32, 32))   # CIFAR-10 size
-         image = np.array(image)
-         image = image / 255.0            # Normalization
-         image = np.expand_dims(image, axis=0)
+        image = image.convert("RGB")
+        image = image.resize((32, 32))   # CIFAR-10 size
+        image = np.array(image)
+        image = image / 255.0            # Normalization
+        image = np.expand_dims(image, axis=0)
 
           # Prediction
-          prediction = model.predict(image)
-          predicted_class = class_names[np.argmax(prediction)]
-          confidence = np.max(prediction) * 100
+        prediction = model.predict(image)
+        predicted_class = class_names[np.argmax(prediction)]
+        confidence = np.max(prediction) * 100
 
-          col1,col2 = st.columns([1,1])
-          with col1:
-              st.image(image,caption=uploaded_file.name)
-              st.metric("Model Confidence",f"{confidence:.2f}%")
+        col1,col2 = st.columns([1,1])
+        with col1:
+            st.image(image,caption=uploaded_file.name)
+            st.metric("Model Confidence",f"{confidence:.2f}%")
               # Probability Graph
-              prob_df = pd.DataFrame( prediction[0],index=class_names,
+            prob_df = pd.DataFrame( prediction[0],index=class_names,
 columns=["Probability"])
 
-              st.bar_chart(prob_df)   
+            st.bar_chart(prob_df)   
               
-          with col2:
-              fig = go.Figure(go.Indicator(
-                 mode="gauge+number",
-                 value=confidence,
-                 title={'text': "Model Confidence"},
-                 gauge={
-                     'axis': {'range': [0, 100]},
-                     'bar': {'color': "blue"},
-                     'steps': [
-                         {'range': [0, 50], 'color': "lightgray"},
-                         {'range': [50, 80], 'color': "gray"},
-                         {'range': [80, 100], 'color': "green"},
+        with col2:
+            fig = go.Figure(go.Indicator(
+                mode="gauge+number",
+                value=confidence,
+                title={'text': "Model Confidence"},
+                gauge={
+                    'axis': {'range': [0, 100]},
+                    'bar': {'color': "blue"},
+                    'steps': [
+                        {'range': [0, 50], 'color': "lightgray"},
+                        {'range': [50, 80], 'color': "gray"},
+                        {'range': [80, 100], 'color': "green"},
         ],
     }
 ))
