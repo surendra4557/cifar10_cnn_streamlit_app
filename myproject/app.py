@@ -96,18 +96,18 @@ if page == "Prediction":
                                       type=["jpg", "png", "jpeg"],
                                       accept_multiple_files=True)
 st.warning("⚠ This model is trained on CIFAR-10 dataset (32x32 images). High resolution Google images may give inaccurate results.")
-    if uploaded_files is not None:
-        for uploaded_file in uploaded_files:
-          image = Image.open(uploaded_file)
-          st.image(image, caption=uploaded_file.name)
+if uploaded_files is not None:
+    for uploaded_file in uploaded_files:
+        image = Image.open(uploaded_file)
+        st.image(image, caption=uploaded_file.name)
 
 
         # Preprocessing
-          image = image.convert("RGB")
-          image = image.resize((32, 32))   # CIFAR-10 size
-          image = np.array(image)
-          image = image / 255.0            # Normalization
-          image = np.expand_dims(image, axis=0)
+         image = image.convert("RGB")
+         image = image.resize((32, 32))   # CIFAR-10 size
+         image = np.array(image)
+         image = image / 255.0            # Normalization
+         image = np.expand_dims(image, axis=0)
 
           # Prediction
           prediction = model.predict(image)
