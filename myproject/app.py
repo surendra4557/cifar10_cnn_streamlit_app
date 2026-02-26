@@ -94,6 +94,7 @@ if page == "Prediction":
     st.title("Upload Images")
     uploaded_files = st.file_uploader("Predicting One or more than one Images in just single click",type=["jpg", "png", "jpeg"],
  accept_multiple_files=True)
+st.warning("⚠ This model is trained on CIFAR-10 dataset (32x32 images). High resolution Google images may give inaccurate results.")
 
     if uploaded_files:
        for uploaded_file in uploaded_files:
