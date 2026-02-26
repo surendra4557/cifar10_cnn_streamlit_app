@@ -140,15 +140,15 @@ columns=["Probability"])
     }
 ))
 
-              st.plotly_chart(fig, use_container_width=True)
-              st.subheader(f"Prediction Result is:{predicted_class}")
-              st.write(f"Confidence:,{confidence:.2f}%")
+             st.plotly_chart(fig, use_container_width=True)
+             st.subheader(f"Prediction Result is:{predicted_class}")
+             st.write(f"Confidence:,{confidence:.2f}%")
  
-              st.success("model loaded successfully!")
-              st.balloons()
-              st.spinner("predicting....")
-              st.progress(0)
-          st.markdown("""<div style='text-align:center;'>\
+             st.success("model loaded successfully!")
+             st.balloons()
+             st.spinner("predicting....")
+             st.progress(0)
+     st.markdown("""<div style='text-align:center;'>\
 <span class='star'>⭐ ⭐ ⭐</span> \
 <span class='cracker'>🎆 🎇</span>\
 </div>""", unsafe_allow_html=True)
